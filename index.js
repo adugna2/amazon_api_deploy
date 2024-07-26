@@ -17,13 +17,20 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "success" });
 });
 
-app.post("/payments/create", async (req, res) => {
-  const total = req.query.total;
-  if (total > 0) {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: total,
-      currency: "usd"
-    });
+// app.post("/payments/create", async (req, res) => {
+//   const total = req.query.total;
+//   if (total > 0) {
+//     const paymentIntent = await stripe.paymentIntents.create({
+//       amount: total,
+//       currency: "usd"
+//     });
+app.post("/payment/create",async(req,res)=>{
+  const total= parseInt(req.query.total);
+  if (total > 0){
+    const paymentIntent=await stripe.paymentIntents.create({
+      amount:total,
+      currency:"usd",
+    })
     res.status(201).json({
       clientSecret: paymentIntent.client_secret,
     });
